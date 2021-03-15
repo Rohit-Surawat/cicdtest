@@ -1,0 +1,24 @@
+name: CD
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        token: 022ef20a02ab8ef1886549c023670932b4e5f255
+    - name: Commit built assets
+      run: |
+        git config --local user.email "rahul.modi@neologicx.com"
+        git config --local user.name "rmodi234"
+    - name: Deploy to production
+      uses: appleboy/ssh-action@master
+      with:
+        username: root
+        host:
+        password:
+        script: 'cd /var/www/html && ./deploy.sh'
